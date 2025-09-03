@@ -16,9 +16,6 @@ Criar um programa que seja capaz de receber do usuário uma expressão contendo 
 
 ## Requisitos do enunciado
 
-<div align="right" style="font-size: smaller;"><a ref="enunciado.pdf"><b>ENUNCIADO COMPLETO EM PDF</b></a></div>
-<p></p>
-
 * O usuário insere uma string em um prompt idêntico ao do Python (que aguarda um input depois de ```>>>```) e recebe o resultado logo em seguida, podendo inserir nova expressão sempre que quiser.
 * Todo número complexo será inserido com a sintaxe ```(a + bi)``` (e variações de sinal), com ```a``` e ```b``` sendo ```int``` ou ```float```. Isso difere da sintaxe padrão do Pyhton, que usa ```j``` para sinalizar a parte imaginária.
 * Espaços em branco não prejudicam o input.
@@ -30,6 +27,8 @@ Criar um programa que seja capaz de receber do usuário uma expressão contendo 
     - uma função chamada ```CalcPosFixa()``` que recebe uma lista em notação pós-fixa e retorna um ```Complexo()``` contendo o resultado, imprimindo-o na tela no formato ```(a + bi)``` ou ```(a +bi)``` (e variações de sinal).
 * Caso o input esteja em formato inválido, deve ser retornado ```None```.
 * O programa de estar todo contido em um único script de nome ```posfixa.py```.
+
+[link para o enunciado](enunciado.pdf)
 
 ## Descrição da resolução
 
