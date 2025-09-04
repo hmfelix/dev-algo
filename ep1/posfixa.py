@@ -51,8 +51,8 @@ class Complexo:
             raise TypeError('Tentativa de operar Complexo com objetos sem ser int, float ou Complexo.')
         return None
     
-    # construtor
-    def __init__(self, real: int | float = 0, imaginaria: int | float = 0) -> None:
+    # construtor: aceita ints ou floats
+    def __init__(self, real=0, imaginaria=0) -> None:
         if not (self.__is_crtype(real) and self.__is_crtype(imaginaria)):
             raise TypeError('Tipo das partes real e imaginaria devem ser int ou float.')
         self.Re = real
@@ -60,24 +60,24 @@ class Complexo:
 
     # metodos de consulta
     # obs.: parte real e imaginaria podem ser consultadas pelo respectivo atributo
-    def __str__(self) -> str:
+    def __str__(self):
         return f'Complexo({self.Re}, {self.Im})'
     
-    def __repr__(self) -> str:
+    def __repr__(self):
         return self.__str__()
     
     # operadores unarios
-    def __neg__(self) -> 'Complexo':
+    def __neg__(self):
         return Complexo(-self.Re, -self.Im)
     
-    def __pos__(self) -> 'Complexo':
+    def __pos__(self):
         return Complexo(+self.Re, +self.Im)
     
-    def conj(self) -> 'Complexo':
+    def conj(self):
         return Complexo(self.Re, -self.Im)
 
-    # comparacao
-    def __eq__(c1, c2: 'Complexo' | int | float) -> 'Complexo':
+    # comparacao (com ints, floats ou Complexo)
+    def __eq__(c1, c2):
         if not c1.__is_optype(c2):
             return False
         if c1.__is_crtype(c2):
@@ -87,26 +87,26 @@ class Complexo:
         else:
             return c1.Re == c2.Re and c1.Im == c2.Im
 
-    # operadores binarios
-    def __add__(c1, c2: 'Complexo' | int | float) -> 'Complexo':
+    # operadores binarios (com ints, floats ou Complexos)
+    def __add__(c1, c2):
         c1.__test_optype(c2)
         if c1.__is_crtype(c2):
             return Complexo(c1.Re + c2, c1.Im)
         else:
             return Complexo(c1.Re + c2.Re, c1.Im + c2.Im)
         
-    def __sub__(c1, c2: 'Complexo' | int | float) -> 'Complexo':
+    def __sub__(c1, c2):
         c1.__test_optype(c2)
         return c1 + (-c2)
     
-    def __mul__(c1, c2: 'Complexo' | int | float) -> 'Complexo':
+    def __mul__(c1, c2):
         c1.__test_optype(c2)
         if c1.__is_crtype(c2):
             return Complexo(c1.Re * c2, c1.Im * c2)
         else:
             return Complexo(c1.Re * c2.Re - c1.Im * c2.Im, c1.Re * c2.Im + c1.Im * c2.Re)
 
-    def __truediv__(c1, c2: 'Complexo' | int | float) -> 'Complexo':
+    def __truediv__(c1, c2):
         c1.__test_optype(c2)
         if c1.__is_crtype(c2):
             if c2 == 0:
@@ -121,12 +121,15 @@ class Complexo:
 
 
 # (2) Funcoes obrigatorias
-def TraduzPosFixa(expr: str) -> list | None:
+
+# recebe a string de input do usuario
+# retorna uma lista em notacao pos-fixa ou None se o input for invalido
+def TraduzPosFixa(input_str):
     # se o input for vazio, retorna None
-    if expr is None:
+    if input_str is None:
         return None
 
-    simbolos = ProcessarInput(expr) # funcao auxiliar definida mais adiante
+    simbolos = ProcessarInput(input_str) # funcao auxiliar definida mais adiante
 
     # se o output de ProcessarInput() for None, retorna None
     if simbolos is None:
@@ -152,8 +155,11 @@ def TraduzPosFixa(expr: str) -> list | None:
                 op.push(simbolo) # ...empilha
             else: # se o topo eh um operador de maior prioridade...
                 pos_fixa.push(op.pop()) # ...desempilha o topo...
-                while Prioridade(op.top()) >= nivel_simbolo: # ...checa se novo topo tem maior prioridade...
+                nivel_inferior = Prioridade(op.top()) 
+                while nivel_inferior >= nivel_simbolo and nivel_inferior in (1,2,3):
+                # ...checa se novo topo tem maior prioridade e ainda eh um operador...
                     pos_fixa.push(op.pop()) # ...se tiver, desemplilha novamente e repete...
+                    nivel_inferior = Prioridade(op.top())
                 op.push(simbolo) # ...ao final, empilha o simbolo atual (operador de menor prioridade)
 
         elif nivel_simbolo == 4: # simbolo eh abre parenteses
@@ -162,6 +168,9 @@ def TraduzPosFixa(expr: str) -> list | None:
         elif nivel_simbolo == 5: # simbolo eh fecha parenteses
             while Prioridade(op.top()) < 4: # enquanto nao encontra abre parenteses...
                 pos_fixa.push(op.pop()) # ...desempilha
+                
+                # PROBLEMA NESTE LOOP
+            
             op.pop() # descarta o abre parenteses encontrado
 
     # desempilha toda a pilha de operadores
@@ -174,11 +183,13 @@ def TraduzPosFixa(expr: str) -> list | None:
 # recebe lista contendo expressao em notacao pos fixa
 # retorna o valor calculado a partir da expressao
 # (ou None se houver algum problema)
-def CalcPosFixa(pos_fixa: list) -> int | float | Complexo | None:
+def CalcPosFixa(pos_fixa):
     # se o output de TraduzPosFixa tiver sido None, retorna None
     if pos_fixa is None:
         return None
     
+    # usa-se uma pilha para ir estocando os operandos
+    # e aplicando os operadores
     calculo = Pilha()
 
     try: 
@@ -189,9 +200,11 @@ def CalcPosFixa(pos_fixa: list) -> int | float | Complexo | None:
                 try: # ...se for int ou float, o transforma em Complexo...
                     numero = float(simbolo)
                     simbolo = Complexo(numero)
+                
                 except TypeError: # ...se jah for Complexo, segue...
                     pass
                 calculo.push(simbolo) # ...e o empilha
+                
             elif simbolo == '_': # se o simbolo eh negativo unario...
                 operando_1 = str(calculo.pop())
                 expr_a_avaliar = '-' + operando_1
@@ -216,7 +229,7 @@ def CalcPosFixa(pos_fixa: list) -> int | float | Complexo | None:
 # usa a expressao regular fornecida pelo enunciado para tokenizar
 # a string recebida do usuario
 # retorna uma lista de tokens
-def Tokenizar(expr: str) -> list:
+def Tokenizar(expr):
     reg_expr = r"(\b\d*[\.]?\d+[i]?\b|[\(\)\+\*\-\/\%])"
     return re.findall(reg_expr, expr)
 
@@ -225,7 +238,7 @@ def Tokenizar(expr: str) -> list:
 # retorna lista de operadores e operandos, 
 # potencialmente contendo objetos do tipo Complexo
 # retorna None se houver algum problema
-def SubstituirComplexos(token_list: list) -> list:
+def SubsComplexos(token_list):
     placeholder = '-->to_del<--' # marca elementos a serem deletados ao final
     tl_copy = token_list[:] # copia: evita sobrescrever a lista passada como argumento
     for k, token in enumerate(token_list):
@@ -251,7 +264,7 @@ def SubstituirComplexos(token_list: list) -> list:
     return result
 
 # retorna a prioridade do operador, ou 0 se for operando
-def Prioridade(char: str | Complexo) -> int:
+def Prioridade(char):
     if char == '+' or char == '-':
         return 1
     elif char == '*' or char == '/':
@@ -266,11 +279,11 @@ def Prioridade(char: str | Complexo) -> int:
         return 0
 
 # na lista de operadores e operandos (i.e., lista retornada pela funcao
-# SubstituirComplexos()), substitui + e - unarios respectivamente por # e _
+# SubsComplexos()), substitui + e - unarios respectivamente por # e _
 # retorna a lista de operadores e operandos com tais operadores unarios
 # renomeados, se houver
-def SubstituirUnarios(op_list: list) -> list:
-    # se o output de SubstituirComplexos() tiver sido None, retorna None
+def SubsUnarios(op_list):
+    # se o output de SubsComplexos() tiver sido None, retorna None
     if op_list is None:
         return None
 
@@ -287,24 +300,28 @@ def SubstituirUnarios(op_list: list) -> list:
 
 # funcao que apenas junta as funcoes auxiliares acima para produzir uma
 # lista apta a ser passada ao algoritmo de transformacao em notacao pos-fixa
-def ProcessarInput(input: str) -> list:
+def ProcessarInput(input):
     as_tokens = Tokenizar(input)
-    as_complexos = SubstituirComplexos(as_tokens)
-    as_unarios = SubstituirUnarios(as_complexos)
+    as_complexos = SubsComplexos(as_tokens)
+    as_unarios = SubsUnarios(as_complexos)
 
-    # se o output de SubstituirUnarios tiver sido None, retorna None
+    # se o output de SubsUnarios tiver sido None, retorna None
     if as_unarios is None:
         return None
     return as_unarios
 
 # imprime um numero complexo na forma requerida pelo enunciado
 # (chamada ao final da funcao CalPosFixa)
-def ImprimirResultado(resultado: Complexo):
-    if resultado.Im > 0:
-        a_printar_Im = '+' + str(resultado.Im)
+def ImprimirResultado(resultado):
+    if type(resultado) is not Complexo:
+        resultado_complexo = Complexo(resultado)
+    else: 
+        resultado_complexo = resultado
+    if resultado_complexo.Im > 0:
+        a_printar_Im = '+' + str(resultado_complexo.Im)
     else:
-        a_printar_Im = resultado.Im
-    print(f'({resultado.Re} {a_printar_Im}i)')
+        a_printar_Im = resultado_complexo.Im
+    print(f'({resultado_complexo.Re} {a_printar_Im}i)')
 
 
 # (4) Programa
