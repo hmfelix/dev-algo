@@ -13,7 +13,7 @@ A disciplina abordou conceitos como: programação orientada a objetos (POO), ti
 
 **[Interpretador de expressões com complexos](ep1/index.md)**
 
-**[segunda](ep2/index.md)**
+**[Solucionador de sudoku](ep2/index.md)**
 
 **[terceira](ep3/index.md)**
 
