@@ -182,10 +182,10 @@ O usuário que quiser interagir com o programa pode baixar o script no link abai
 
 Além de testes com a versão interativa do programa, entregue a título de resolução, também segui a sugestão do enunciado de fazer uma validação usando um conjunto de jogos fornecidos pelo professor.
 
-Esta validação foi feita separadamente no script `ep2/validacao.py`. Ela acessa os jogos em formato de texto puro, com células separadas por espaços e preenchidas com zero no caso de células vazias, salvos na pasta `ep2/jogos_validacao`. Um loop itera sobre os arquivos dessa pasta e vai mostrando as respectivas soluções cada vez que o botão enter é apertado.
+Esta validação foi feita separadamente no script `ep2/validacao.py`. Ela acessa os jogos em formato de texto puro, com células separadas por espaços e preenchidas com zero no caso de células vazias, salvos na pasta `ep2/jogos_validacao`. Um loop itera sobre os arquivos dessa pasta e mostra as soluções de um jogo cada vez que o botão enter é apertado.
 
-No meu caso, para validar o programa comparei individualmente as soluções de cada jogo com soluções dadas por outros solucionadores conhecidos de Sudoku. Todas as soluções encontradas foram iguais às desses solucionadores.
+No meu caso, para validar o programa comparei manualmente as soluções de cada jogo com soluções dadas por outros solucionadores conhecidos de Sudoku. Todas as soluções encontradas foram iguais às desses solucionadores.
 
-A pessoa que quiser usar este programa para resolver algum(ns) jogo(s) pode simplesmente substituir os arquivos na pasta em questão (esta pasta deve conter apenas jogos de Sudoku no formato correto). O script pode ser conferido no link abaixo:
+A pessoa que quiser usar este programa para resolver algum(ns) jogo(s) pode simplesmente substituir o(s) arquiv(os) na pasta em questão (esta pasta deve conter apenas jogos de Sudoku no formato correto). O script pode ser conferido no link abaixo:
 
 **[Link para o script que resolve jogos fornecidos em arquivo](validacao.py)**
