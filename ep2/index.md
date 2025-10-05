@@ -187,6 +187,6 @@ Esta validação foi feita separadamente no script `ep2/validacao.py`. Ela acess
 
 No meu caso, para validar o programa comparei individualmente as soluções de cada jogo com soluções dadas por outros solucionadores conhecidos de Sudoku. Todas as soluções encontradas foram iguais às desses solucionadores.
 
-Quem quiser usar este programa para resolver algum(ns) jogo(s) pode simplesmente substituir os arquivos na pasta em questão. O script pode ser conferido no link abaixo:
+A pessoa que quiser usar este programa para resolver algum(ns) jogo(s) pode simplesmente substituir os arquivos na pasta em questão (esta pasta deve conter apenas jogos de Sudoku no formato correto). O script pode ser conferido no link abaixo:
 
 **[Link para o script que resolve jogos fornecidos em arquivo](validacao.py)**

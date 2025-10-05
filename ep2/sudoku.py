@@ -1,10 +1,12 @@
 # -----------
-# 0) DEPENDENCIAS
+# 0) DEPENDENCIAS E VARIAVEIS GLOBAIS
 # -----------
 from random import sample, randrange, shuffle
 from itertools import product
 from copy import deepcopy
 
+n_encontradas = 0
+solucoes_encontradas = []
 
 
 
@@ -77,8 +79,7 @@ def Sudoku(MatrizSudoku, linha=0, coluna=0, imprimir=True):
     Imprime as soluções caso imprimir seja True, não imprime
     caso seja False.
     """
-    global n_encontradas
-    global solucoes_encontradas
+    global n_encontradas, solucoes_encontradas
     if n_encontradas == 10:
         return None
     if MatrizSudoku[linha][coluna] == 0:
@@ -101,10 +102,10 @@ def Sudoku(MatrizSudoku, linha=0, coluna=0, imprimir=True):
         return None
     else:
         candidatos = CalcularCandidatos(pp, MatrizSudoku)
-        shuffle(candidatos)
         if candidatos == []:
             MatrizSudoku[linha][coluna] = 0
             return None
+        shuffle(candidatos)
         for candidato in candidatos:
             MatrizSudoku[pp[0]][pp[1]] = candidato
             Sudoku(MatrizSudoku, pp[0], pp[1], imprimir=imprimir)
@@ -164,9 +165,11 @@ def main():
         # lida com problemas de input
         if verificacao == -1:
             print('Input deve ser número inteiro.')
+            print()
             continue
         if verificacao == -2:
             print('O número de posições não pode ser menor que 0 ou maior que 81.')
+            print()
             continue
         # cria a matriz a ser solucionada
         Matriz = GeraMatrizSudoku(int(npp))
@@ -175,8 +178,6 @@ def main():
         print('**********************************************')
         ReinicializarVarsGlobais()
         Sudoku(Matriz)
-        if n_encontradas <= 10:
-            print('Estas são todas as soluções existentes.')
         print()
 
 def ReinicializarVarsGlobais():
@@ -184,8 +185,7 @@ def ReinicializarVarsGlobais():
     Reinicializa as variáveis globais que permitem o backtracking
     e guardam as soluções encontradas.
     """
-    global n_encontradas
-    global solucoes_encontradas
+    global n_encontradas, solucoes_encontradas
     n_encontradas = 0
     solucoes_encontradas = []
     return
@@ -336,8 +336,4 @@ def ProxPosicaoVazia(MatrizSudoku, linha=0, coluna=0):
 # -----------
 
 if __name__ == '__main__':
-    n_encontradas = 0
-    solucoes_encontradas = []
     main()
-
-        
