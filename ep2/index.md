@@ -172,7 +172,6 @@ colunas OK
 quadrados OK
 solução completa e consistente
 **********************************************
-Estas são todas as soluções existentes.
 ```
 
 O usuário que quiser interagir com o programa pode baixar o script no link abaixo e, usando alguma versão compatível de Python, executá-lo no prompt de comando.
