@@ -1,10 +1,9 @@
 # -----------
 # 0) DEPENDENCIAS
 # -----------
-from random import randrange
-from random import sample
-import itertools
-import copy
+from random import sample, randrange, shuffle
+from itertools import product
+from copy import deepcopy
 
 
 
@@ -19,9 +18,17 @@ def GeraMatrizSudoku(npp):
     pré-preenchidos especificado pelo usuário.
     """
     zeros = [[0]*9 for _ in range(9)]
+    if npp == 0:
+        return zeros
+    linha = randrange(0,9)
+    coluna = randrange(0,9)
+    zeros[linha][coluna] = randrange(0,9)
+    if npp == 1:
+        return zeros
     ReinicializarVarsGlobais()
     Sudoku(zeros, imprimir=False)
-    solucao_provisoria = copy.deepcopy(solucoes_encontradas[0])
+    ind = randrange(0,len(solucoes_encontradas))
+    solucao_provisoria = deepcopy(solucoes_encontradas[ind])
     ReinicializarVarsGlobais()
     a_retirar = sample(list(range(81)), 81-npp)
     for indice in a_retirar:
@@ -70,15 +77,14 @@ def Sudoku(MatrizSudoku, linha=0, coluna=0, imprimir=True):
     Imprime as soluções caso imprimir seja True, não imprime
     caso seja False.
     """
+    global n_encontradas
     global solucoes_encontradas
-    n_encontradas = len(solucoes_encontradas)
     if n_encontradas == 10:
         return None
-    linha = coluna = 0
     if MatrizSudoku[linha][coluna] == 0:
         pp = (linha, coluna)
     else:
-        pp = ProxPosicao(MatrizSudoku, linha, coluna)
+        pp = ProxPosicaoVazia(MatrizSudoku, linha, coluna)
     if pp is None:
         n_encontradas += 1
         if imprimir:
@@ -91,10 +97,11 @@ def Sudoku(MatrizSudoku, linha=0, coluna=0, imprimir=True):
             if imprimir:
                 print('Existem mais soluções além de 10, que não foram imprimidas.')
         else:
-            solucoes_encontradas.append(copy.deepcopy(MatrizSudoku))
+            solucoes_encontradas.append(deepcopy(MatrizSudoku))
         return None
     else:
         candidatos = CalcularCandidatos(pp, MatrizSudoku)
+        shuffle(candidatos)
         if candidatos == []:
             MatrizSudoku[linha][coluna] = 0
             return None
@@ -116,7 +123,7 @@ def Sudoku(MatrizSudoku, linha=0, coluna=0, imprimir=True):
 # coordenada em Z (indice) e vice-versa, permitindo percorrer a 
 # matriz como se fosse uma lista.
 dim_1 = list(range(9))
-dim_2 = list(itertools.product(dim_1, dim_1))
+dim_2 = list(product(dim_1, dim_1))
 coord_2D_flat_dict = {chave: i for i, chave in enumerate(dim_2)}
 indice_flat_dict = {i: coord for i, coord in enumerate(dim_2)}
 
@@ -168,7 +175,7 @@ def main():
         print('**********************************************')
         ReinicializarVarsGlobais()
         Sudoku(Matriz)
-        if len(solucoes_encontradas) <= 10:
+        if n_encontradas <= 10:
             print('Estas são todas as soluções existentes.')
         print()
 
@@ -177,7 +184,9 @@ def ReinicializarVarsGlobais():
     Reinicializa as variáveis globais que permitem o backtracking
     e guardam as soluções encontradas.
     """
+    global n_encontradas
     global solucoes_encontradas
+    n_encontradas = 0
     solucoes_encontradas = []
     return
 
@@ -203,15 +212,6 @@ def VerificarConsistencias(npp):
     if npp > 81 or npp < 0:
         return -2
     return
-
-def SortearCelula():
-    """
-    Apenas sorteia dois numeros entre 1 e 9,
-    retornando uma tupla que representa uma celula da matriz.
-    """
-    linha = randrange(0,9)
-    coluna = randrange(0,9)
-    return (linha, coluna)
 
 def PegarColuna(coluna, MatrizSudoku):
     """
@@ -310,7 +310,7 @@ def ImprimirMatriz(MatrizSudoku):
     print(linhas[7])
     print(linhas[8])
 
-def ProxPosicao(MatrizSudoku, linha=0, coluna=0):
+def ProxPosicaoVazia(MatrizSudoku, linha=0, coluna=0):
     """
     Retorna a próxima posição vazia na matriz sudoku fornecida,
     ou None caso não haja. Usada na função obrigatória Sudoku().
@@ -336,6 +336,7 @@ def ProxPosicao(MatrizSudoku, linha=0, coluna=0):
 # -----------
 
 if __name__ == '__main__':
+    n_encontradas = 0
     solucoes_encontradas = []
     main()
 
