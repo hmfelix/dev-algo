@@ -1,4 +1,4 @@
-import sudoku as sudoku
+import sudoku
 import re
 from os import listdir
 from pathlib import Path
