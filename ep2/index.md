@@ -41,7 +41,7 @@ Geralmente, o jogo já vem pré-preenchido com alguns valores, cabendo à pessoa
 
 ## Descrição da resolução
 
-Textualmente, o código está dividido em quatro partes:
+Textualmente, o código está dividido em cinco partes:
 
 0. dependências
 1. funções obrigatórias (`GeraMatrizSudoku`, `TestaMatrizSudoku` e `Sudoku`)
