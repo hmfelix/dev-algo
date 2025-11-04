@@ -70,7 +70,7 @@ def ClassificaQuick(TAB, comp_fn):
 
 
 # -----------
-# 2) FUNCOES AUXILIARES
+# 2) FUNCOES ACESSORIAS
 # -----------
 
 def main():
@@ -182,6 +182,8 @@ def particionar(lista, inicio, fim, comp_fn):
     Usa a função de comparaçao dada por comp_fn,
     e parte dos índices de lista dados por
     inicio e fim.
+    Retorna o indice final de particionamento, i.e.,
+    posicao final do pivo.
     (Implementação inspirada na versão dada
     em sala pelo professor, com adaptações.)
     """

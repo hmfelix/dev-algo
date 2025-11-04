@@ -94,4 +94,8 @@ def comp4(a, b):
 # -----------
 
 def as_date(date_str):
+    """
+    Transforma a data em formato string para
+    formato date da biblioteca padrão.
+    """
     return date(*reversed([int(e) for e in date_str.split('/')]))

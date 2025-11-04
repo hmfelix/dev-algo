@@ -27,7 +27,7 @@ Escrever um programa que recebe da pessoa usuária um número entre 0 e 81, cria
 * O programa deve estar inteiramente contido em um único script (no caso, o arquivo `ep2/sudoku.py`)
 * Foram fornecidos arquivos contendo matrizes solucionáveis, neste projeto salvos na pasta `ep2/jogos_validacao/`, a serem opcionalmente solucionadas como forma de validação do programa.
 
-Este último ponto não faz parte da entrega. Portanto, para validar o programa foi criado um script à parte chamado `ep2/validacao.py`.
+Este último ponto não fez parte da entrega. Portanto, para validar o programa foi criado um script à parte chamado `ep2/validacao.py`.
 
 Os detalhes do enunciado podem ser consultados no link abaixo.
 
